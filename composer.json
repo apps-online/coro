@@ -16,8 +16,6 @@
 			"Coro\\" : "src/"
 		}
 	},
-	"minimum-stability": "dev",
-	"prefer-stable": false,
 	"scripts" : {
 		"check" : [
 			"@cs-check",
