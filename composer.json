@@ -1,6 +1,8 @@
 {
 	"name" : "appsonline/coro",
+	"type" : "Library",
 	"description" : "Coro Library Application",
+	"license": "BSD-3-Clause",
 	"keywords" : [
 		"coroApplication"
 	],
@@ -15,15 +17,5 @@
 		"psr-4" : {
 			"Coro\\" : "src/"
 		}
-	},
-	"scripts" : {
-		"check" : [
-			"@cs-check",
-			"@test"
-		],
-		"cs-check" : "phpcs",
-		"cs-fix" : "phpcbf",
-		"test" : "phpunit --colors=always",
-		"test-coverage" : "phpunit --colors=always --coverage-clover clover.xml"
 	}
 }
