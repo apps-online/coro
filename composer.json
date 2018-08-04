@@ -17,7 +17,7 @@
 		}
 	},
 	"minimum-stability": "dev",
-	"prefer-stable": flase,
+	"prefer-stable": false,
 	"scripts" : {
 		"check" : [
 			"@cs-check",
