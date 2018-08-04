@@ -7,15 +7,18 @@
 		"coroApplication"
 	],
 	"homepage" : "https://appsonline.eu/coro-app",
-	"require" : {
-		"php" : "^5.6 || ^7.0"
-	},
-	"config" : {
-		"optimize-autoloader" : true
-	},
+	"authors" : [{
+			"homepage" : "https://www.appsonline.eu"
+		}
+	],
 	"autoload" : {
 		"psr-4" : {
 			"Coro\\" : "src/"
 		}
-	}
+	},
+	"require" : {
+		"php" : "^5.6 || ^7.0"
+	},
+	"minimum-stability": "dev-master",
+	"prefer-stable": false
 }
