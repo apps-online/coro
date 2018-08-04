@@ -19,6 +19,6 @@
 	"require" : {
 		"php" : "^5.6 || ^7.0"
 	},
-	"minimum-stability": "master",
+	"minimum-stability": "dev-master",
 	"prefer-stable": true
 }
