@@ -62,7 +62,7 @@ class AppSeo
      */
     public static function setSeoLocale($value)
     {
-        return self::$_seoLocale;
+        return self::$_seoLocale = $value;
     }
 
     /**
@@ -139,6 +139,19 @@ class AppSeo
             return true;
         } else {
             return false;
+        }
+    }
+
+    /**
+     *
+     * @name removeSeoParam
+     * @access public
+     * @param string $key
+     */
+    public static function removeSeoParam($key)
+    {
+        if (self::hasSeoParam($key) !== false) {
+            unset(self::$_seoParams[$key]);
         }
     }
 
@@ -270,20 +283,20 @@ class AppSeo
                 }
             }
         }
-        
+
         self::setSeoHash(sha1(implode('/', $params)));
         if (file_exists(self::getSeoDirPath() . self::getSeoLocale() . '.php')) {
             require_once self::getSeoDirPath() . self::getSeoLocale() . '.php';
             $arr = 'seo_' . self::getSeoLocale();
-            
+
             if (isset(${$arr}[self::getSeoHash()][1])) {
                 self::setSeoTitle($seo_pl_PL[self::getSeoHash()][1]);
             }
-            
+
             if (isset(${$arr}[self::getSeoHash()][2])) {
                 self::setSeoKeywords($seo_pl_PL[self::getSeoHash()][2]);
             }
-            
+
             if (isset(${$arr}[self::getSeoHash()][3])) {
                 self::setSeoDescription($seo_pl_PL[self::getSeoHash()][3]);
             }

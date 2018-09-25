@@ -22,7 +22,7 @@ class Developer
     public static function moduloPart($days, $modulo = 7)
     {
         $data = [];
-        
+
         // $days = date('j')
         if (! in_array($days, [
             28,
@@ -31,15 +31,15 @@ class Developer
         ])) {
             $days = date('t');
         }
-        
+
         if (! preg_match('/^[0-9]{1,2}$/i', $modulo) && $modulo < 0) {
             $modulo = 7;
         }
-        
+
         if ($days == $modulo) {
             $modulo = 7;
         }
-        
+
         for ($d = 1; $d <= $days; $d ++) {
             for ($d = 1; $d <= $days; $d ++) {
                 $p = (($d % $modulo) - 1);
@@ -64,7 +64,7 @@ class Developer
     {
         if (! empty($size) && (int) $size) {
             if ((int) $decimals && $decimals > 0 && $decimals < 4) {
-                
+
                 $units = [
                     'B' => 0,
                     'KB' => 1,
@@ -76,11 +76,11 @@ class Developer
                     'ZB' => 7,
                     'YB' => 8
                 ];
-                
+
                 $powValue = floor(log($size) / log(1024));
                 $unit = array_search($powValue, $units);
                 $value = ($size / pow(1024, floor($units[$unit])));
-                
+
                 $size = sprintf('%.' . $decimals . 'f ' . $unit, $value);
                 return $size;
             }
@@ -136,26 +136,26 @@ class Developer
         if (empty($value)) {
             return false;
         }
-        
+
         $isCheck = [];
-        
+
         if (is_dir($value)) {
             $isCheck[] = true;
         }
-        
+
         if (is_file($value)) {
             $isCheck[] = true;
         }
-        
+
         if (! sizeof($isCheck)) {
             return false;
         }
-        
+
         $info = [];
         $stat = stat($value);
-        
+
         if (is_array($stat) && sizeof($stat)) {
-            
+
             $ts = [
                 0140000 => 'ssocket',
                 0120000 => 'llink',
@@ -165,9 +165,9 @@ class Developer
                 0020000 => 'cchar',
                 0010000 => 'pfifo'
             ];
-            
+
             $t = decoct($stat['mode'] & 0170000);
-            
+
             $str = (array_key_exists(octdec($t), $ts)) ? $ts[octdec($t)]{0} : 'u';
             $str .= (($stat['mode'] & 0x0100) ? 'r' : '-') . (($stat['mode'] & 0x0080) ? 'w' : '-');
             $str .= (($stat['mode'] & 0x0040) ? (($stat['mode'] & 0x0800) ? 's' : 'x') : (($stat['mode'] & 0x0800) ? 'S' : '-'));
@@ -175,7 +175,7 @@ class Developer
             $str .= (($stat['mode'] & 0x0008) ? (($stat['mode'] & 0x0400) ? 's' : 'x') : (($stat['mode'] & 0x0400) ? 'S' : '-'));
             $str .= (($stat['mode'] & 0x0004) ? 'r' : '-') . (($stat['mode'] & 0x0002) ? 'w' : '-');
             $str .= (($stat['mode'] & 0x0001) ? (($stat['mode'] & 0x0200) ? 't' : 'x') : (($stat['mode'] & 0x0200) ? 'T' : '-'));
-            
+
             $info = [
                 'dirname' => @dirname($value),
                 'basename' => @basename($value),
@@ -348,8 +348,10 @@ class Developer
      */
     public static function fileMimeType($extension)
     {
+        $result = false;
+
         if (preg_match('/^[0-9a-zA-Z]{2,6}$/i', $extension)) {
-            
+
             $mimeTypes = [
                 // other'
                 'txt' => 'text/plain',
@@ -399,7 +401,7 @@ class Developer
                 'odt' => 'application/vnd.oasis.opendocument.text',
                 'ods' => 'application/vnd.oasis.opendocument.spreadsheet'
             ];
-            
+
             if (isset($mimeTypes[strtolower($extension)])) {
                 $result = $mimeTypes[strtolower($extension)];
             }
@@ -425,9 +427,9 @@ class Developer
             0020000 => 'cchar',
             0010000 => 'pfifo'
         ];
-        
+
         $t = decoct($value & 0170000);
-        
+
         $str = (array_key_exists(octdec($t), $ts)) ? $ts[octdec($t)]{0} : 'u';
         $str .= (($value & 0x0100) ? 'r' : '-') . (($value & 0x0080) ? 'w' : '-');
         $str .= (($value & 0x0040) ? (($value & 0x0800) ? 's' : 'x') : (($value & 0x0800) ? 'S' : '-'));

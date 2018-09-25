@@ -72,10 +72,10 @@ class Generator
         } else {
             $_los = $code;
         }
-        
+
         $_los .= str_pad(mt_rand(0, 999999), 6, '000000', STR_PAD_LEFT);
         $_value = str_split($_los);
-        
+
         $weight = [
             6,
             5,
@@ -92,7 +92,7 @@ class Generator
             $sm = $_value[$i] * $weight[$i];
             $s += $sm;
         }
-        
+
         $m = $s % 11;
         $value = $_los . $m;
         return $value;
@@ -110,9 +110,9 @@ class Generator
         if ($length != 9 && $length != 14) {
             $length = 9;
         }
-        
+
         switch ($length) {
-            
+
             case 9:
                 $weight = [
                     8,
@@ -134,7 +134,7 @@ class Generator
                 $m = $s % 11;
                 $value = $_los . $m;
                 break;
-            
+
             case 14:
                 $weight = [
                     2,
@@ -166,7 +166,7 @@ class Generator
                 $value = $_los . $m;
                 break;
         }
-        
+
         return $value;
     }
 
@@ -182,21 +182,21 @@ class Generator
         if (! is_numeric($sex) || strlen($sex) > 1) {
             $sex = 1;
         }
-        
+
         if ($sex > 1) {
             $sex = 0;
         }
-        
+
         // 0 - kobieta, 1 - mezczyzna
         $_year = str_pad(rand(0, 99), 2, '00', STR_PAD_LEFT);
         $_month = str_pad(rand(1, 12), 2, '00', STR_PAD_LEFT);
         $_day = str_pad(rand(1, 31), 2, '00', STR_PAD_LEFT);
-        
+
         $days = cal_days_in_month(0, $_month, $_year);
         if ($_day > $days) {
             $_day = $days;
         }
-        
+
         $n = 10;
         while ($n) {
             $_los = str_pad(mt_rand(1, 9999), 4, '0000', STR_PAD_LEFT);
@@ -205,10 +205,10 @@ class Generator
                 break;
             }
         }
-        
+
         $value = $_year . $_month . $_day . $_los;
         $_value = str_split($value);
-        
+
         $weight = [
             1,
             3,
@@ -221,18 +221,18 @@ class Generator
             1,
             3
         ];
-        
+
         $s = 0;
         for ($i = 0; $i < 10; $i ++) {
             $sm = $_value[$i] * $weight[$i];
             $s += $sm;
         }
-        
+
         $m = $s % 10;
         $m = 10 - $m;
         $m = $m % 10;
         $value = $value . $m;
-        
+
         return $value;
     }
 
@@ -248,18 +248,18 @@ class Generator
     {
         if (preg_match('/^[0-9]{1,2}$/i', $lenght) && $lenght > 0) {
             if (preg_match('/^[0-9]{1,20}$/i', $max) && $max > 0) {
-                
+
                 $tableChars = "0123456789ABCDEF";
-                
+
                 $prefix = '';
                 $j = $max;
-                
+
                 for ($i = 1; $i <= $lenght; $i ++) {
                     $tmp = $j & 15;
                     $prefix .= substr($tableChars, $tmp, 1);
                     $j = $j / 16;
                 }
-                
+
                 return $prefix;
             } else {
                 return false;

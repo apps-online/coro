@@ -8,6 +8,6 @@
  */
 namespace Coro\Exception;
 
-class AppException implements ExceptionInterface
+class AppException extends \Exception implements ExceptionInterface
 {
 }

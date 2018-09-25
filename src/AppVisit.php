@@ -288,21 +288,21 @@ class AppVisit extends AppConnection
     private static function check($value)
     {
         $isExist = false;
-        
+
         if (! file_exists(self::getDirLogVisit() . self::getFileLogVisit())) {
             $fp = fopen(self::getDirLogVisit() . self::getFileLogVisit(), 'a');
             fclose($fp);
         }
-        
+
         $matches = [];
         $contents = file_get_contents(self::getDirLogVisit() . self::getFileLogVisit());
         $pattern = preg_quote($value, '/');
         $pattern = "/^.*$pattern.*\$/m";
-        
+
         if (preg_match_all($pattern, $contents, $matches)) {
             $isExist = true;
         }
-        
+
         return $isExist;
     }
 
@@ -318,7 +318,7 @@ class AppVisit extends AppConnection
                 mkdir(self::getDirLogVisit(), '0777', true);
             }
         }
-        
+
         if (is_bool(self::getDirLogVisit())) {
             $sectionApplication = self::getSectionLogVisit();
             $visitDir = getcwd() . '/data/logs/visits/' . $sectionApplication . '/';
@@ -328,9 +328,9 @@ class AppVisit extends AppConnection
             }
             self::setDirLogVisit($visitDir);
         }
-        
+
         $paramsConnection = self::getAllParamsConnection();
-        
+
         $visit = [];
         $schema = self::$_schemaVisit[self::getSchemaVisitType()];
         $visit[0] = self::getSchemaVisitType();
@@ -343,11 +343,11 @@ class AppVisit extends AppConnection
         }
         $search = sha1(self::getSchemaVisitType() . self::getSeparatorLogVisit() . implode(self::getSeparatorLogVisit(), $visit));
         $visit[(sizeof($visit) + 1)] = $search;
-        
+
         if (self::getFileLogVisit() !== true) {
             self::setFileLogVisit(date('Y_m_d') . '_visit.log');
         }
-        
+
         if (! self::check($search)) {
             $fp = fopen(self::getDirLogVisit() . self::getFileLogVisit(), 'a');
             fwrite($fp, implode(self::getSeparatorLogVisit(), $visit) . "\n");
@@ -414,24 +414,24 @@ class AppVisit extends AppConnection
      * @access public
      * @return array|boolean
      */
-    public static function getAllVisits()
+    public static function getAllVisits($section = NULl)
     {
         set_time_limit(0);
         ini_set('memory_limit', '-1');
-        
+
         $result = false;
-        
-        if (is_bool(self::getDirLogVisit())) {
-            $visitsDir = getcwd() . '/data/logs/visits/' . self::getSectionLogVisit() . '/';
-            self::setDirLogVisit($visitsDir);
+
+        $visitsDir = $visitsDir = BASE_PATH . '/data/logs/visits/application';
+        if (! is_null($section)) {
+            $visitsDir = $visitsDir = BASE_PATH . '/data/logs/visits/' . $section;
         }
-        
-        $iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator(self::getDirLogVisit()), \RecursiveIteratorIterator::CHILD_FIRST);
-        
+
+        $iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($visitsDir), \RecursiveIteratorIterator::CHILD_FIRST);
+
         if (sizeof($iterator)) {
-            
+
             $datResult = [];
-            
+
             foreach ($iterator as $splFileInfo) {
                 if (! $splFileInfo->isDir()) {
                     if (file_exists($splFileInfo->getPath() . '/' . $splFileInfo->getFilename())) {
@@ -443,7 +443,7 @@ class AppVisit extends AppConnection
                     }
                 }
             }
-            
+
             if (sizeof($datResult)) {
                 $result = $datResult;
             }

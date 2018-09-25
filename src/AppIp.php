@@ -8,7 +8,7 @@
  */
 namespace Coro;
 
-class AddressIp
+class AppIp
 {
 
     /**
@@ -47,7 +47,7 @@ class AddressIp
                 }
             }
         }
-        
+
         if (! isset($_SERVER)) {
             if (getenv('HTTP_X_FORWARDED_FOR')) {
                 $this->_addressIp = getenv('HTTP_X_FORWARDED_FOR');
